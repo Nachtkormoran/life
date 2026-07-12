@@ -8,11 +8,20 @@ const ROWS = 50;
 canvas.width = COLS * CELL_SIZE;
 canvas.height = ROWS * CELL_SIZE;
 
+const RULES = {
+    conway:   { birth: [3],       survive: [2, 3] },
+    highlife: { birth: [3, 6],    survive: [2, 3] },
+    daynight: { birth: [3, 6, 7, 8], survive: [3, 4, 6, 7, 8] },
+    anneal:   { birth: [4, 6, 7, 8], survive: [3, 5, 6, 7, 8] },
+};
+
+let currentRule = RULES.conway;
 let grid = createGrid();
 let running = false;
 let generation = 0;
 let intervalId = null;
 
+const ruleSelect = document.getElementById('ruleSelect');
 const playPauseBtn = document.getElementById('playPause');
 const stepBtn = document.getElementById('step');
 const randomizeBtn = document.getElementById('randomize');
@@ -41,7 +50,7 @@ function clearGrid() {
     generation = 0;
     running = false;
     clearInterval(intervalId);
-    playPauseBtn.textContent = 'Start';
+    playPauseBtn.innerHTML = '<span class="icon">&#9654;</span> Start';
     playPauseBtn.classList.remove('active');
     draw();
 }
@@ -62,16 +71,17 @@ function countNeighbors(r, c) {
 function nextGeneration() {
     const next = createGrid();
     let population = 0;
+    const { birth, survive } = currentRule;
 
     for (let r = 0; r < ROWS; r++) {
         for (let c = 0; c < COLS; c++) {
             const neighbors = countNeighbors(r, c);
             const alive = grid[r][c];
 
-            if (alive && (neighbors === 2 || neighbors === 3)) {
+            if (alive && survive.includes(neighbors)) {
                 next[r][c] = true;
                 population++;
-            } else if (!alive && neighbors === 3) {
+            } else if (!alive && birth.includes(neighbors)) {
                 next[r][c] = true;
                 population++;
             }
@@ -80,8 +90,8 @@ function nextGeneration() {
 
     grid = next;
     generation++;
-    generationLabel.textContent = `Gen: ${generation}`;
-    populationLabel.textContent = `Pop: ${population}`;
+    generationLabel.textContent = generation;
+    populationLabel.textContent = population;
     draw();
 }
 
@@ -91,7 +101,7 @@ function draw() {
     for (let r = 0; r < ROWS; r++) {
         for (let c = 0; c < COLS; c++) {
             if (grid[r][c]) {
-                ctx.fillStyle = '#00d4ff';
+                ctx.fillStyle = '#00e676';
                 ctx.fillRect(c * CELL_SIZE, r * CELL_SIZE, CELL_SIZE - 1, CELL_SIZE - 1);
             }
         }
@@ -101,11 +111,11 @@ function draw() {
 function startStop() {
     running = !running;
     if (running) {
-        playPauseBtn.textContent = 'Pause';
+        playPauseBtn.innerHTML = '<span class="icon">&#9724;</span> Pause';
         playPauseBtn.classList.add('active');
         scheduleNext();
     } else {
-        playPauseBtn.textContent = 'Start';
+        playPauseBtn.innerHTML = '<span class="icon">&#9654;</span> Start';
         playPauseBtn.classList.remove('active');
         clearInterval(intervalId);
     }
@@ -155,6 +165,9 @@ playPauseBtn.addEventListener('click', startStop);
 stepBtn.addEventListener('click', nextGeneration);
 randomizeBtn.addEventListener('click', randomize);
 clearBtn.addEventListener('click', clearGrid);
+ruleSelect.addEventListener('change', () => {
+    currentRule = RULES[ruleSelect.value];
+});
 speedInput.addEventListener('input', () => {
     speedLabel.textContent = speedInput.value;
     if (running) scheduleNext();
