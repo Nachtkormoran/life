@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conway's Game of Life</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Game of Life</h1>
+        <div class="controls">
+            <button id="playPause">Start</button>
+            <button id="step">Step</button>
+            <button id="randomize">Random</button>
+            <button id="clear">Clear</button>
+            <label>
+                Speed:
+                <input type="range" id="speed" min="1" max="30" value="10">
+                <span id="speedLabel">10</span> gen/s
+            </label>
+            <span id="generation">Gen: 0</span>
+            <span id="population">Pop: 0</span>
+        </div>
+        <canvas id="canvas"></canvas>
+    </div>
+    <script src="game.js"></script>
+</body>
+</html>
