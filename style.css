@@ -92,6 +92,12 @@ h1 {
     gap: 8px;
 }
 
+.tool-group:nth-child(3),
+.tool-group:nth-child(4) {
+    padding-left: 12px;
+    border-left: 1px solid var(--border);
+}
+
 .tool-group.speed label {
     font-size: 0.8rem;
     color: var(--text-dim);
@@ -152,6 +158,58 @@ h1 {
 .btn-danger:hover {
     border-color: var(--danger);
     color: var(--danger);
+}
+
+/* Toggle */
+.toggle-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.toggle-wrapper input {
+    display: none;
+}
+
+.toggle-track {
+    width: 36px;
+    height: 20px;
+    background: var(--border);
+    border-radius: 10px;
+    position: relative;
+    transition: background 0.2s;
+}
+
+.toggle-track::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 14px;
+    height: 14px;
+    background: var(--text-dim);
+    border-radius: 50%;
+    transition: all 0.2s;
+}
+
+.toggle-wrapper input:checked + .toggle-track {
+    background: #00e676;
+}
+
+.toggle-wrapper input:checked + .toggle-track::after {
+    transform: translateX(16px);
+    background: #fff;
+}
+
+.toggle-label {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-dim);
+}
+
+.toggle-wrapper input:checked ~ .toggle-label {
+    color: #00e676;
 }
 
 /* Select */
@@ -265,6 +323,138 @@ canvas {
     font-family: 'JetBrains Mono', monospace;
     font-size: 1.4rem;
     font-weight: 500;
-    color: var(--accent-light);
+    color: #00e676;
     margin-top: 2px;
+}
+
+/* Utility */
+.hidden {
+    display: none !important;
+}
+
+/* Auth overlay */
+.auth-overlay {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background: radial-gradient(circle at 50% 30%, rgba(108, 99, 255, 0.15), transparent 60%), var(--bg);
+    z-index: 100;
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 360px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px 24px;
+    box-shadow:
+        0 4px 32px rgba(0, 0, 0, 0.45),
+        0 0 40px var(--accent-glow);
+}
+
+.auth-brand {
+    text-align: center;
+    margin-bottom: 22px;
+}
+
+.auth-tabs {
+    display: flex;
+    gap: 4px;
+    background: var(--canvas-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 4px;
+    margin-bottom: 20px;
+}
+
+.auth-tab {
+    flex: 1;
+    background: transparent;
+    color: var(--text-dim);
+    border: none;
+    padding: 8px 0;
+    border-radius: 7px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.15s ease;
+}
+
+.auth-tab.active {
+    background: var(--accent);
+    color: #fff;
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.auth-form input {
+    background: var(--surface-hover);
+    color: var(--text);
+    border: 1px solid var(--border);
+    padding: 11px 14px;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    transition: all 0.15s ease;
+}
+
+.auth-form input::placeholder {
+    color: var(--text-dim);
+}
+
+.auth-form input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.auth-submit {
+    justify-content: center;
+    padding: 11px;
+    margin-top: 4px;
+    font-size: 0.9rem;
+}
+
+.auth-error {
+    color: var(--danger);
+    font-size: 0.82rem;
+    text-align: center;
+    margin-top: 14px;
+    min-height: 1em;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+}
+
+.auth-error.visible {
+    opacity: 1;
+}
+
+/* User bar */
+.user-bar {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 8px 12px 8px 16px;
+    z-index: 50;
+}
+
+.user-bar #greeting {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text);
 }

@@ -7,7 +7,41 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="app">
+    <div class="auth-overlay" id="authOverlay">
+        <div class="auth-card">
+            <div class="auth-brand">
+                <h1>Game of Life</h1>
+                <p class="subtitle">Melde dich an, um zu spielen</p>
+            </div>
+
+            <div class="auth-tabs">
+                <button type="button" class="auth-tab active" id="tabLogin">Login</button>
+                <button type="button" class="auth-tab" id="tabSignup">Registrieren</button>
+            </div>
+
+            <form class="auth-form" id="loginForm">
+                <input type="email" id="loginEmail" placeholder="E-Mail" autocomplete="email" required>
+                <input type="password" id="loginPassword" placeholder="Passwort" autocomplete="current-password" required>
+                <button type="submit" class="btn btn-primary auth-submit">Einloggen</button>
+            </form>
+
+            <form class="auth-form hidden" id="signupForm">
+                <input type="text" id="signupName" placeholder="Name" autocomplete="name" required>
+                <input type="email" id="signupEmail" placeholder="E-Mail" autocomplete="email" required>
+                <input type="password" id="signupPassword" placeholder="Passwort" autocomplete="new-password" minlength="6" required>
+                <button type="submit" class="btn btn-primary auth-submit">Konto erstellen</button>
+            </form>
+
+            <p class="auth-error" id="authError"></p>
+        </div>
+    </div>
+
+    <div class="user-bar hidden" id="userBar">
+        <span id="greeting"></span>
+        <button class="btn" id="logoutBtn">Logout</button>
+    </div>
+
+    <div class="app hidden">
         <header>
             <h1>Game of Life</h1>
             <p class="subtitle">Conway's Cellular Automaton</p>
@@ -21,6 +55,31 @@
                         <option value="highlife">HighLife (B36/S23)</option>
                         <option value="daynight">Day &amp; Night (B3678/S34678)</option>
                         <option value="anneal">Anneal (B4678/S35678)</option>
+                        <option value="regrowth">Regrowth (B3/S2-3 + B1)</option>
+                        <option value="briansbrain">Brian's Brain</option>
+                    </select>
+                </label>
+            </div>
+
+            <div class="tool-group">
+                <label class="select-wrapper">
+                    <select id="patternSelect">
+                        <option value="random">Random</option>
+                        <option value="rpentomino">R-Pentomino</option>
+                        <option value="gun">Gosper Glider Gun</option>
+                        <option value="diehard">Diehard</option>
+                        <option value="acorn">Acorn</option>
+                    </select>
+                </label>
+                <button id="spawnPattern" class="btn">Spawn</button>
+            </div>
+
+            <div class="tool-group">
+                <label class="select-wrapper">
+                    <select id="sizeSelect">
+                        <option value="80x50">80 × 50</option>
+                        <option value="120x80">120 × 80</option>
+                        <option value="160x100">160 × 100</option>
                     </select>
                 </label>
             </div>
@@ -35,8 +94,15 @@
             </div>
 
             <div class="tool-group">
-                <button id="randomize" class="btn">Random</button>
                 <button id="clear" class="btn btn-danger">Clear</button>
+            </div>
+
+            <div class="tool-group">
+                <label class="toggle-wrapper">
+                    <input type="checkbox" id="fadeMode">
+                    <span class="toggle-track"></span>
+                    <span class="toggle-label">Fade</span>
+                </label>
             </div>
 
             <div class="tool-group speed">
@@ -61,6 +127,7 @@
             </div>
         </footer>
     </div>
+    <script type="module" src="auth.js"></script>
     <script src="game.js"></script>
 </body>
 </html>
